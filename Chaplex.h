@@ -4,6 +4,8 @@
 ||         using Alexander Brevig - Charlieplex library
 || @version 0.1
 ||
+|| Updates by Christoph Tack
+||
 */
 
 #ifndef Chaplex_h
@@ -15,11 +17,14 @@
 #include "WProgram.h"
 #endif
 
-#define ON 1
-#define OFF 0
+typedef enum
+{
+    OFF=0,
+    ON=1
+}LEDSTATE;
 
 struct CharlieLed {
-  byte r;
+  byte a;
   byte c; 
 } ;
 
@@ -28,17 +33,17 @@ typedef struct CharlieLed charlieLed;
 class Chaplex {
 
 public:
-	Chaplex(byte* userPins,byte numberOfUserPins);
-	
-	void ledWrite(charlieLed led, byte state);
+    Chaplex(byte* userPins, byte nrOfPins);
+    ~Chaplex();
+    bool setLedState(charlieLed led, LEDSTATE state);
 	void allClear();
-	void outRow();
-	
+    void showLedState();
+    void setSingleLed(charlieLed led, LEDSTATE state);
 private:
-	byte numberOfPins;
-	byte* pins;
-	byte* ledCtrl;
-    volatile byte ledRow;
+    byte numberOfPins=0;
+    byte* pins=nullptr;
+    byte* ledCtrl=nullptr;
+    byte ledRow=0;
 };
 
 #endif
